@@ -1,6 +1,6 @@
 export default {
   jwt: {
     secret: 'teste',
-    expiresIn: '1d'
-  }
-}
+    expiresIn: '1d',
+  },
+};

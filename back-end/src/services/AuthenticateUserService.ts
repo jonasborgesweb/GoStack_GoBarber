@@ -1,13 +1,11 @@
-import { getRepository } from 'typeorm'
-import { compare } from 'bcryptjs'
-import { sign, verify } from 'jsonwebtoken'
+import { getRepository } from 'typeorm';
+import { compare } from 'bcryptjs';
+import { sign, verify } from 'jsonwebtoken';
 
-import AppError from '../errors/AppError'
+import AppError from '../errors/AppError';
 
-import User from './../models/User'
-import authConfig from '../config/auth'
-
-
+import User from '../models/User';
+import authConfig from '../config/auth';
 
 interface RequestDTO {
   email: string;
@@ -23,30 +21,30 @@ class AuthenticateUserService {
   public async execute({ email, password }: RequestDTO): Promise<ResponseDTO> {
     const usersRepository = getRepository(User);
 
-    //Validando o Email
+    // Validando o Email
     const user = await usersRepository.findOne({
-      where: { email }
-    })
+      where: { email },
+    });
 
     if (!user) {
       throw new AppError('Incorrect email/password combination', 401);
     }
 
-    //Validando Senha
-    const passwordMatched = await compare(password, user.password)
+    // Validando Senha
+    const passwordMatched = await compare(password, user.password);
 
     if (!passwordMatched) {
       throw new AppError('Incorrect email/password combination', 401);
     }
 
-    //Criando o Token
+    // Criando o Token
     const { secret, expiresIn } = authConfig.jwt;
     const token = sign({}, secret, {
       subject: user.id,
-      expiresIn: expiresIn
-    })
+      expiresIn,
+    });
 
-    return { user, token }
+    return { user, token };
   }
 }
 

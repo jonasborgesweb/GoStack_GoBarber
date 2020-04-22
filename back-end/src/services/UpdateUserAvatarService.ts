@@ -1,9 +1,9 @@
-import { getRepository } from 'typeorm'
-import path from 'path'
-import fs from 'fs'
-import uploadConfig from '../config/upload'
+import { getRepository } from 'typeorm';
+import path from 'path';
+import fs from 'fs';
+import uploadConfig from '../config/upload';
 
-import AppError from '../errors/AppError'
+import AppError from '../errors/AppError';
 
 import User from '../models/User';
 
@@ -16,21 +16,21 @@ class UpadateUserAvatarService {
   public async execute({ user_id, avatarFilename }: RequestDTO): Promise<User> {
     const userRepository = getRepository(User);
 
-    //Validando ID do usuário
+    // Validando ID do usuário
     const user = await userRepository.findOne(user_id);
 
     if (!user) {
-      throw new AppError('Only authenticated users can change avatar.', 401)
+      throw new AppError('Only authenticated users can change avatar.', 401);
     }
 
-    //Deletar Avatar Anterior
+    // Deletar Avatar Anterior
     if (user.avatar) {
-      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar)
+      const userAvatarFilePath = path.join(uploadConfig.directory, user.avatar);
 
       const userAvatarFileExists = await fs.promises.stat(userAvatarFilePath);
 
       if (userAvatarFileExists) {
-        await fs.promises.unlink(userAvatarFilePath)
+        await fs.promises.unlink(userAvatarFilePath);
       }
     }
 
@@ -39,7 +39,6 @@ class UpadateUserAvatarService {
     await userRepository.save(user);
 
     return user;
-
   }
 }
 

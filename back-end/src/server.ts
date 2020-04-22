@@ -1,6 +1,6 @@
 import 'reflect-metadata';
 
-import express, { Request, Response, NextFunction, response } from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import 'express-async-errors';
 

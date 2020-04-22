@@ -5,9 +5,9 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
-  JoinColumn
+  JoinColumn,
 } from 'typeorm';
-import User from './User'
+import User from './User';
 
 @Entity('appointments')
 class Appointment {
