@@ -1,7 +1,20 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
 import backgroundSingUp from '../../assets/sign-up-background.png';
+
+// Animation Config
+const appearFromRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+`;
 
 export const Container = styled.section`
   height: 100vh;
@@ -22,7 +35,15 @@ export const Content = styled.div`
 
   width: 700px;
   max-width: 700px;
+`;
 
+export const AnimationContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  animation: ${appearFromRight} 1s;
   form {
     max-width: 340px;
     width: 100%;
@@ -34,20 +55,6 @@ export const Content = styled.div`
       text-align: center;
       margin-bottom: 20px;
     }
-
-    /* a {
-      color: #f4ede8;
-      display: block;
-      text-decoration: none;
-      font-weight: 400;
-      margin-top: 24px;
-      transition: 0.3s ease;
-      text-align: center;
-
-      &:hover {
-        color: ${shade(0.2, '#f4ede8')};
-      }
-    } */
   }
 
   > a {

@@ -1,7 +1,20 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
 import backgroundSingIn from '../../assets/sign-in-background.png';
+
+// Animation Config
+const appearFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-100px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+`;
 
 export const Container = styled.section`
   height: 100vh;
@@ -22,7 +35,15 @@ export const Content = styled.div`
 
   width: 700px;
   max-width: 700px;
+`;
 
+export const AnimationContent = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+
+  animation: ${appearFromLeft} 1s;
   form {
     max-width: 340px;
     width: 100%;
