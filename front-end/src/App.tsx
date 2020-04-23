@@ -3,17 +3,17 @@ import React from 'react';
 // Importando CSS
 import GlobalStyle from './styles/global';
 
-// Importação Contexto
-import { AuthProvider } from './hooks/AuthContext';
+// Importando os Hooks
+import AppProvider from './hooks/index';
 
-import SingIn from './pages/SingIn';
-import SingUp from './pages/SingUp';
+import SignIn from './pages/SignIn';
+import SignUp from './pages/SignUp';
 
 const App: React.FC = () => (
   <>
-    <AuthProvider>
-      <SingIn />
-    </AuthProvider>
+    <AppProvider>
+      <SignIn />
+    </AppProvider>
     <GlobalStyle />
   </>
 );

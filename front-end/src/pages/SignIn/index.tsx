@@ -6,6 +6,7 @@ import * as Yup from 'yup';
 
 // Importando Contexto
 import { useAuth } from '../../hooks/AuthContext';
+import { useToast } from '../../hooks/ToastContext';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
@@ -26,6 +27,7 @@ const SingIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
 
   const { signIn } = useAuth();
+  const { addToast } = useToast();
 
   const handleSubmit = useCallback(
     async (data: SignFormData) => {
@@ -41,7 +43,7 @@ const SingIn: React.FC = () => {
 
         await schema.validate(data, { abortEarly: false });
 
-        signIn({
+        await signIn({
           email: data.email,
           password: data.password,
         });
@@ -53,9 +55,15 @@ const SingIn: React.FC = () => {
         }
 
         // Dispara um toast
+        addToast({
+          type: 'error',
+          title: 'Erro na autenticação',
+          description:
+            'Ocorreu um erro ao fazer o login, cheque as credenciais.',
+        });
       }
     },
-    [signIn],
+    [signIn, addToast],
   );
   return (
     <Container>
