@@ -16,6 +16,8 @@ import * as Yup from 'yup';
 
 import getValidationErrors from '../../utils/getValidationErrors';
 
+import { useAuth } from '../../hooks/AuthContext';
+
 import logoImg from '../../assets/logo.png';
 
 // Importando Components
@@ -38,41 +40,42 @@ interface SignFormData {
 
 const SignIn: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
+
   const passwordInputRef = useRef<TextInput>(null);
+
   const navigation = useNavigation();
 
+  const { signIn, user } = useAuth();
+
   // Submit do Form
-  const handleSubmit = useCallback(async (data: SignFormData) => {
-    try {
-      formRef.current?.setErrors({});
+  const handleSubmit = useCallback(
+    async (data: SignFormData) => {
+      try {
+        formRef.current?.setErrors({});
 
-      const schema = Yup.object().shape({
-        email: Yup.string()
-          .required('E-mail obrigatório')
-          .email('Digite um e-mail válido'),
-        password: Yup.string().required('Senha Obrigatória'),
-      });
+        const schema = Yup.object().shape({
+          email: Yup.string()
+            .required('E-mail obrigatório')
+            .email('Digite um e-mail válido'),
+          password: Yup.string().required('Senha Obrigatória'),
+        });
 
-      await schema.validate(data, { abortEarly: false });
+        await schema.validate(data, { abortEarly: false });
 
-      // await signIn({
-      //   email: data.email,
-      //   password: data.password,
-      // });
-    } catch (err) {
-      if (err instanceof Yup.ValidationError) {
-        const errors = getValidationErrors(err);
+        await signIn({
+          email: data.email,
+          password: data.password,
+        });
+      } catch (err) {
+        if (err instanceof Yup.ValidationError) {
+          const errors = getValidationErrors(err);
 
-        formRef.current?.setErrors(errors);
+          formRef.current?.setErrors(errors);
+        }
       }
-
-      // Dispara um toast
-      // Alert.alert(
-      //   'Erro na autenticação',
-      //   'Ocorreu um erro ao fazer o login, cheque as credenciais.',
-      // );
-    }
-  }, []);
+    },
+    [signIn],
+  );
   return (
     <>
       <KeyboardAvoidingView

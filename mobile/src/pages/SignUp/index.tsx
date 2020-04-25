@@ -14,6 +14,8 @@ import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 import * as Yup from 'yup';
 
+import api from '../../services/api';
+
 import logoImg from '../../assets/logo.png';
 
 import getValidationErrors from '../../utils/getValidationErrors';
@@ -60,9 +62,12 @@ const SignUp: React.FC = () => {
 
         await schema.validate(data, { abortEarly: false });
 
-        console.log(data);
+        api.post('/users', data);
 
-        // api.post('/users', data);
+        Alert.alert(
+          'Cadastro realizado com sucesso!',
+          'Você já pode fazer login na aplicação',
+        );
 
         navigation.navigate('SignIn');
       } catch (err) {
@@ -124,7 +129,7 @@ const SignUp: React.FC = () => {
               />
 
               <Button onPress={() => formRef.current?.submitForm()}>
-                Entrar
+                Cadastrar
               </Button>
             </Form>
             <BackToSignInButton onPress={() => navigation.goBack()}>
