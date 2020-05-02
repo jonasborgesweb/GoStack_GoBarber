@@ -44,6 +44,8 @@ const AuthProvider: React.FC = ({ children }) => {
       }
 
       setLoading(false);
+
+      // Teste Teste
     }
     loadStorageData();
   }, []);
