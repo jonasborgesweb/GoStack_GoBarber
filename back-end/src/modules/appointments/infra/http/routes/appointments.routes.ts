@@ -3,11 +3,11 @@ import { parseISO } from 'date-fns';
 import { getCustomRepository } from 'typeorm';
 
 // Importando arquivos Agendamento
-import AppointmentsRepository from '../respositories/ApponitmentsRepository';
-import CreateAppointmentService from '../services/CreateAppointmentService';
+import AppointmentsRepository from '@modules/appointments/repositories/ApponitmentsRepository';
+import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 
 // Importando Middlewares
-import ensureAuthenticaded from '../middlewares/ensureAuthenticated';
+import ensureAuthenticaded from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 const appointmentsRouter = Router();
 
