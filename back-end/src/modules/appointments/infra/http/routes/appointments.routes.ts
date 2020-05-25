@@ -1,9 +1,8 @@
 import { Router } from 'express';
 import { parseISO } from 'date-fns';
-import { getCustomRepository } from 'typeorm';
+import { container } from 'tsyringe';
 
 // Importando arquivos Agendamento
-import AppointmentsRepository from '@modules/appointments/repositories/ApponitmentsRepository';
 import CreateAppointmentService from '@modules/appointments/services/CreateAppointmentService';
 
 // Importando Middlewares
@@ -14,13 +13,13 @@ const appointmentsRouter = Router();
 appointmentsRouter.use(ensureAuthenticaded);
 
 // Listagem dos Agendamentos
-appointmentsRouter.get('/', async (request, response) => {
-  const appointmentsRepository = getCustomRepository(AppointmentsRepository);
+// appointmentsRouter.get('/', async (request, response) => {
+//   const appointmentsRepository = getCustomRepository(AppointmentsRepository);
 
-  const appointments = await appointmentsRepository.find();
+//   const appointments = await appointmentsRepository.find();
 
-  return response.json(appointments);
-});
+//   return response.json(appointments);
+// });
 
 // Criação de Agendamento
 appointmentsRouter.post('/', async (request, response) => {
@@ -28,7 +27,7 @@ appointmentsRouter.post('/', async (request, response) => {
 
   const parsedDate = parseISO(date);
 
-  const createAppointment = new CreateAppointmentService();
+  const createAppointment = container.resolve(CreateAppointmentService);
 
   const appointment = await createAppointment.execute({
     date: parsedDate,
